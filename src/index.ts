@@ -51,12 +51,13 @@ class Stopwatch {
      * Toggles the stopwatch, depending on its current state.
      * @param {boolean} emit whether the onstart or onstop events should be emitted. The event is always emitted.
      */
-    public toggle(emit = true): void {
+    public toggle(emit = true): boolean {
         if (this._active) {
             this.stop(emit);
-            return;
+            return false;
         }
         this.start(emit);
+        return true;
     }
 
     /**
