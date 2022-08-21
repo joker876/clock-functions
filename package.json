@@ -1,0 +1,30 @@
+{
+  "name": "clock-functions",
+  "version": "1.0.0",
+  "description": "A simple library with time-related classes.",
+  "main": "dist/index.js",
+  "keywords": [
+    "clock",
+    "stopwatch",
+    "timer",
+    "hour"
+  ],
+  "author": "joker876",
+  "license": "MIT",
+  "files": [
+    "dist/*"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nodemon dist/index.js",
+    "tstest": "ts-node-dev --respawn src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joker876/clock-functions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joker876/clock-functions/issues"
+  },
+  "homepage": "https://github.com/joker876/clock-functions#readme"
+}
