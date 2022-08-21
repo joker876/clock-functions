@@ -136,7 +136,6 @@ class Stopwatch {
         return this.time() + 'ms';
     }
 }
-function now() { return Date.now() };
 
 class Timer {
     public readonly delay!: number;
