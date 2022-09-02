@@ -1,15 +1,15 @@
 
 
-class Stopwatch {
+export class Stopwatch {
     private _total = 0;
     private _date?: number;
     private _lastStopTime?: number;
     private _active = false;
     
-    public onstart = function () { };
-    public onstop = function () { };
-    public onreset = function () { };
-    public ontime = function () { };
+    public onstart = () => {};
+    public onstop = () => {};
+    public onreset = () => {};
+    public ontime = () => {};
 
     /**
      * Creates a new instance of Stopwatch.
@@ -40,7 +40,7 @@ class Stopwatch {
     public stop(emit = true): boolean {
         if (!this._date || !this._active) return false;
         const now = Date.now();
-        this._lastStopTime = this._date - now;
+        this._lastStopTime = now - this._date;
         this._total += this._lastStopTime;
         this._active = false;
         if (emit) this.onstop();
@@ -124,7 +124,7 @@ class Stopwatch {
      * Returns the time the stopwatch has been active for since the latest start.
      */
     public sinceStart(): number | null {
-        if (!this._date) return null;
+        if (!this._date || !this._active) return null;
         return Date.now() - this._date;
     }
 
@@ -138,12 +138,12 @@ class Stopwatch {
     }
 }
 
-class Timer {
+export class Timer {
     public readonly delay!: number;
     private readonly _stopwatch!: Stopwatch;
     private _timeout: any;
     
-    public onfinish: Function = function () { };
+    public onfinish = () => {};
 
     /**
      * Creates a new instance of Timer.
@@ -151,7 +151,7 @@ class Timer {
      * @param {boolean} autoStart if the timer should start automatically. Default to `true`.
      * @param {function} callback the function to be executed after the timer finishes.
      */
-    constructor(delay: number, autoStart: boolean = true, callback?: Function) {
+    constructor(delay: number, autoStart: boolean = true, callback?: (() => void)) {
         this.delay = delay;
         
         this._stopwatch = new Stopwatch(autoStart);
@@ -169,7 +169,7 @@ class Timer {
      * Starts the timer.
      * @returns false if the timer was already started, othrwise true.
      */
-    public start() {
+    public start(): boolean {
         return this._stopwatch.start();
     }
 
@@ -177,31 +177,32 @@ class Timer {
      * Stops the timer.
      * @returns false if the timer was already stopped, othrwise true.
      */
-    public stop() {
+    public stop(): boolean {
         return this._stopwatch.stop();
     }
 
     /**
      * Toggles the timer, depending on its current state.
      */
-    public toggle() {
-        this._stopwatch.toggle();
+    public toggle(): boolean {
+        return this._stopwatch.toggle();
     }
 
     /**
      * Resets the timer, but keeps its current state.
      * @returns true if the timer was active, false otherwise.
      */
-    public reset() {
+    public reset(): boolean {
         this._stopwatch.onstop();
-        this._stopwatch.reset(false);
+        let resetVal = this._stopwatch.reset(false);
         this._stopwatch.onstart();
+        return resetVal;
     }
 
     /**
      * Returns the time the timer has been active for since the latest start.
      */
-    public sinceStart() {
+    public sinceStart(): number | null {
         return this._stopwatch.sinceStart();
     }
 
@@ -217,7 +218,7 @@ class Timer {
      * 
      * Alias of valueOf() method. 
      */
-    public timeRemaining() { this.valueOf() }
+    public timeRemaining(): number { return this.valueOf() }
 
     /**
      * Returns the time until the function will be called.
@@ -226,8 +227,8 @@ class Timer {
      * 
      * Used by JavaScript when the timer is converted to a primitive value.
      */
-    public valueOf() {
-        return this._stopwatch.time(false);
+    public valueOf(): number {
+        return this.delay - this._stopwatch.time(false);
     }
 
     /**
@@ -235,7 +236,7 @@ class Timer {
      *
      * Used by JavaScript when the timer is converted to a primitive value.
      */
-    public toString() {
+    public toString(): string {
         return this.timeRemaining() + '/' + this.delay + 'ms';
     }
 
@@ -245,7 +246,7 @@ class Timer {
      * Starts a new timeout with the specified delay.
      * @param delay the new delay to execute the callback after.
      */
-    private _settimeout(delay: number = this.delay) {
+    private _settimeout(delay: number = this.delay): void {
         let globalThis = this;
         this._timeout = setTimeout(() => {
             globalThis.onfinish();
@@ -256,14 +257,12 @@ class Timer {
      * 
      * Stops the previous timeout.
      */
-    private _canceltimeout() {
+    private _canceltimeout(): void {
         clearTimeout(this._timeout);
     }
 }
 
 export default {
-    Stopwatch,
-    Timer,
     SECOND: 1000,
     MINUTE: 1000 * 60,
     HOUR:   1000 * 60 * 60,
