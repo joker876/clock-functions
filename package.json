@@ -1,6 +1,6 @@
 {
   "name": "clock-functions",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple library with time-related classes.",
   "main": "dist/index.min.js",
   "keywords": [
