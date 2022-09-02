@@ -262,6 +262,15 @@ export class Timer {
     }
 }
 
+interface ClockConstants {
+    readonly SECOND: number;
+    readonly MINUTE: number;
+    readonly HOUR: number;
+    readonly DAY: number;
+    readonly WEEK: number;
+    readonly MONTH: number
+    readonly YEAR: number;
+}
 export default {
     SECOND: 1000,
     MINUTE: 1000 * 60,
@@ -270,4 +279,4 @@ export default {
     WEEK:  1000 * 60 * 60 * 24 * 7,
     MONTH:  1000 * 60 * 60 * 24 * 30,
     YEAR:   1000 * 60 * 60 * 24 * 365,
-}
+} as ClockConstants;
