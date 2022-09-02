@@ -1,17 +1,18 @@
 import { Stopwatch, Timer } from "./index";
-import clockConst from "./index";
+import clockConstants from "./index";
 
 import delay from 'delay';
 
 
 describe('The constants', () => {
     it('to be correct', () => {
-        expect(clockConst.SECOND).toBe(1e3);
-        expect(clockConst.MINUTE).toBe(60e3);
-        expect(clockConst.HOUR).toBe(3.6e6);
-        expect(clockConst.DAY).toBe(86.4e6);
-        expect(clockConst.MONTH).toBe(2.592e9);
-        expect(clockConst.YEAR).toBe(31.536e9);
+        expect(clockConstants.SECOND).toBe(1e3);
+        expect(clockConstants.MINUTE).toBe(60e3);
+        expect(clockConstants.HOUR).toBe(3.6e6);
+        expect(clockConstants.DAY).toBe(86.4e6);
+        expect(clockConstants.WEEK).toBe(604.8e6);
+        expect(clockConstants.MONTH).toBe(2.592e9);
+        expect(clockConstants.YEAR).toBe(31.536e9);
     });
 });
 
